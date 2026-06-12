@@ -1,0 +1,287 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black:     #0a0a0a;
+  --white:     #ffffff;
+  --blue:      #1a6BFF;
+  --blue-dark: #0f4fd4;
+  --blue-pale: #e8f0ff;
+  --gray-100:  #f4f5f7;
+  --gray-200:  #e2e4e9;
+  --gray-400:  #9ba3b2;
+  --gray-600:  #5a6272;
+  --border:    2.5px solid var(--black);
+  --shadow:    4px 4px 0px var(--black);
+  --shadow-sm: 3px 3px 0px var(--black);
+  --font:      'Space Grotesk', sans-serif;
+}
+
+body {
+  background: var(--gray-100);
+  background-image: radial-gradient(circle, #c8ccd6 1px, transparent 1px);
+  background-size: 22px 22px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--font);
+}
+
+/* ── Layout full-screen ── */
+.chat-wrapper {
+  width: 100%;
+  max-width: 860px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--white);
+  border-left: var(--border);
+  border-right: var(--border);
+  box-shadow: 0 0 0 0;
+}
+
+/* ── Header ── */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 28px;
+  background: var(--blue);
+  border-bottom: var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  background: var(--white);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.header-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.06em;
+}
+
+.header-status {
+  font-size: 11px;
+  font-weight: 700;
+  color: #b8d4ff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.1em;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background: #4cff91;
+  border: 1.5px solid var(--white);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.header-tag {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--white);
+  color: var(--blue);
+  padding: 4px 10px;
+  letter-spacing: 0.05em;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Messages ── */
+.chat-messages {
+  padding: 28px 28px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--white);
+  overflow-y: auto;
+}
+
+.chat-messages::-webkit-scrollbar { width: 5px; }
+.chat-messages::-webkit-scrollbar-track { background: var(--gray-100); }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--gray-200); }
+
+/* ── Row: avatar + bubble ── */
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 70%;
+}
+
+.message.bot  { align-self: flex-start; }
+.message.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.msg-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: 2px solid var(--black);
+}
+
+.message.bot  .msg-avatar { background: var(--blue); color: var(--white); }
+.message.user .msg-avatar { background: var(--black); color: var(--white); }
+
+.bubble {
+  padding: 12px 16px;
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.6;
+  word-break: break-word;
+  border: var(--border);
+}
+
+.message.bot .bubble {
+  background: var(--blue-pale);
+  color: var(--black);
+  box-shadow: var(--shadow);
+}
+
+.message.user .bubble {
+  background: var(--blue);
+  color: var(--white);
+  box-shadow: var(--shadow);
+  font-weight: 500;
+}
+
+.message.user .bubble strong { color: var(--white); }
+
+/* ── Typing ── */
+.typing .bubble {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 18px;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--blue);
+  border: 1.5px solid var(--black);
+  animation: blink 1.2s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) { animation-delay: .2s; }
+.typing-dot:nth-child(3) { animation-delay: .4s; }
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: .25; transform: scale(.7); }
+  40%            { opacity: 1;   transform: scale(1); background: var(--blue-dark); }
+}
+
+/* ── Footer ── */
+.chat-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 28px;
+  border-top: var(--border);
+  background: var(--gray-100);
+  position: sticky;
+  bottom: 0;
+}
+
+.chat-footer input {
+  flex: 1;
+  background: var(--white);
+  border: var(--border);
+  padding: 12px 18px;
+  font-size: 14.5px;
+  font-family: var(--font);
+  font-weight: 500;
+  color: var(--black);
+  outline: none;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .1s;
+}
+
+.chat-footer input::placeholder {
+  color: var(--gray-400);
+  font-weight: 400;
+}
+
+.chat-footer input:focus {
+  box-shadow: 3px 3px 0 var(--blue);
+  border-color: var(--blue);
+}
+
+.chat-footer button {
+  width: 48px;
+  height: 48px;
+  border: var(--border);
+  background: var(--blue);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .1s, transform .1s, background .1s;
+}
+
+.chat-footer button:hover  { background: var(--blue-dark); }
+.chat-footer button:active { box-shadow: 1px 1px 0 var(--black); transform: translate(2px, 2px); }
+.chat-footer button:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* ── Divider de data ── */
+.date-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+  color: var(--gray-400);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.date-divider::before,
+.date-divider::after {
+  content: '';
+  flex: 1;
+  height: 1.5px;
+  background: var(--gray-200);
+}
+
+/* ── Responsivo ── */
+@media (max-width: 600px) {
+  .chat-wrapper  { border-left: none; border-right: none; }
+  .chat-header,
+  .chat-messages,
+  .chat-footer   { padding-left: 16px; padding-right: 16px; }
+  .message       { max-width: 88%; }
+}
