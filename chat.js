@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/chat";
+const API_URL = "https://chat-bot-back-1.onrender.com";
 
 const messagesEl = document.getElementById("chatMessages");
 const inputEl    = document.getElementById("userInput");
